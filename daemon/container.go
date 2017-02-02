@@ -131,6 +131,9 @@ func (daemon *Daemon) newContainer(name string, config *containertypes.Config, h
 	base.Path = entrypoint
 	base.Args = args //FIXME: de-duplicate from config
 	base.Config = config
+	if noExplicitName {
+		base.Config.Labels["com.docker.container.generated-name"] = "true"
+	}
 	base.HostConfig = &containertypes.HostConfig{}
 	base.ImageID = imgID
 	base.NetworkSettings = &network.Settings{IsAnonymousEndpoint: noExplicitName}
